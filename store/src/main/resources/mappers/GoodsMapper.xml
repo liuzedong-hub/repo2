@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- namespace:该xml文件对应哪个接口 -->
+<mapper namespace="cn.tedu.store.mapper.GoodsMapper">
+	<select id="findHotList" resultType="cn.tedu.store.entity.Goods">
+		select 
+		id, image,
+		price,title   
+		   from t_goods where status=1 and num>100 order by priority desc limit 0,4;
+	
+	</select>
+	
+	
+	<select id="findDetails" resultType="cn.tedu.store.entity.Goods">
+	select 
+		sell_point as sellPoint, image,
+		price,title,status,num 
+		   from t_goods where id=#{id};
+	
+	</select>
+</mapper>

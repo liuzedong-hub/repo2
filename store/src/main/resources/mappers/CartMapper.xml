@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- namespace:该xml文件对应哪个接口 -->
+<mapper namespace="cn.tedu.store.mapper.CartMapper">
+
+	<select id="findNum" resultType="cn.tedu.store.entity.Cart">
+		select num,cid from t_cart where uid=#{uid} and gid=#{gid};	
+	</select>
+	
+	<select id="findByUid" resultType="cn.tedu.store.vo.CartVO">
+	
+	select 
+		cid,uid,gid,title,price,image,t_cart.num
+	from t_cart left join t_goods
+		on t_cart.gid=t_goods.id 
+	where uid=#{uid}
+		order by t_cart.created_time desc;
+	
+	</select>
+	
+	<select id="findByCids" resultType="cn.tedu.store.vo.CartVO">
+	
+	select 
+		cid,uid,gid,title,price,image,t_cart.num
+	from t_cart left join t_goods
+		on t_cart.gid=t_goods.id 
+	where cid in(
+		<foreach collection="array" item="cid" separator=",">
+			#{cid}
+		</foreach>
+	)
+		order by t_cart.created_time desc;
+	
+	</select>
+	
+	
+	<select id="findByCid" resultType="cn.tedu.store.entity.Cart">
+	
+	select 
+		num,uid
+	from t_cart 
+	where cid=#{cid}
+	
+	</select>
+	
+	
+	<insert id="insert"
+	useGeneratedKeys="true"
+	keyProperty="cid">
+		insert
+			 into t_cart(uid,gid,num,created_user,created_time,modified_user,modified_time)
+		values
+			(#{uid},#{gid},#{num},#{createdUser},#{createdTime},#{modifiedUser},#{modifiedTime});
+	</insert>
+	
+	<update id="updateNum">
+		update 
+			t_cart 
+		set 
+			num=#{num},modified_user=#{modifiedUser},
+			modified_time=#{modifiedTime}
+	    where
+	    	 cid=#{cid};
+	</update>
+</mapper>

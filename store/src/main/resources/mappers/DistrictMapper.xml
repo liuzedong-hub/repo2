@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<!-- namespace:该xml文件对应哪个接口 -->
+<mapper namespace="cn.tedu.store.mapper.DistrictMapper">
+	<select id="findByParent" resultType="cn.tedu.store.entity.District">
+		select id,parent,code,name from t_dict_district
+		 where parent=#{parent} order by id;
+	</select>
+	
+	<select id="findByCode" resultType="cn.tedu.store.entity.District">
+		select name from t_dict_district
+		 where code=#{code};
+	</select>
+
+	
+
+</mapper>
